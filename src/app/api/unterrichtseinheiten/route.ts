@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const BASEROW_BASE_URL = process.env.BASEROW_BASE_URL
 const BASEROW_TOKEN = process.env.BASEROW_TOKEN
-const EINHEITEN_TABLE_ID = "842"
+const EINHEITEN_TABLE_ID = process.env.BASEROW_UNTERRICHTSEINHEITEN_ID || "857"
 
 // GET: Unterrichtseinheiten laden (optional: ?flexkarte_id=123)
 export async function GET(request: NextRequest) {

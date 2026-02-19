@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 const BASEROW_BASE_URL = process.env.BASEROW_BASE_URL
 const BASEROW_TOKEN = process.env.BASEROW_TOKEN
-const PREIS_TABLE_ID = "839"
+const PREIS_TABLE_ID = process.env.BASEROW_PREISERHOEHUNGEN_ID || "854"
 
 export async function GET() {
   if (!BASEROW_TOKEN || !BASEROW_BASE_URL) {

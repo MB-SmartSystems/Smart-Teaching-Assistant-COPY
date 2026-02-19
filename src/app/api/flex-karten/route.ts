@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const BASEROW_BASE_URL = process.env.BASEROW_BASE_URL
 const BASEROW_TOKEN = process.env.BASEROW_TOKEN
-const FLEX_TABLE_ID = "841"
+const FLEX_TABLE_ID = process.env.BASEROW_FLEXKARTEN_ID || "856"
 
 export async function GET() {
   if (!BASEROW_TOKEN || !BASEROW_BASE_URL) {
