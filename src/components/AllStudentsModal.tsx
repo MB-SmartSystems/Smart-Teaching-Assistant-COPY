@@ -63,8 +63,16 @@ export default function AllStudentsModal({ students, onClose }: AllStudentsModal
   // WhatsApp Link (direkt zu Nummer, nicht zu App)
   const getWhatsAppLink = (nummer: string) => {
     if (!nummer) return '#'
-    const cleanNumber = nummer.replace(/[^0-9+]/g, '')
-    return `https://wa.me/${cleanNumber.startsWith('+') ? cleanNumber.slice(1) : cleanNumber}`
+    let cleanNumber = nummer.replace(/[^0-9+]/g, '')
+    
+    // Deutsche Nummern: 017x, 016x, 015x → +49
+    if (cleanNumber.match(/^01[567]/)) {
+      cleanNumber = '49' + cleanNumber.slice(1)
+    } else if (cleanNumber.startsWith('+')) {
+      cleanNumber = cleanNumber.slice(1)
+    }
+    
+    return `https://wa.me/${cleanNumber}`
   }
 
   // Email Link (mailto)

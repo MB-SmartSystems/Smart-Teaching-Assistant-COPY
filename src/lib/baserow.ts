@@ -20,9 +20,10 @@ export interface Schüler {
   field_7826: { id: number; value: string; color: string } | null // Anfrage_Status
   field_7841: string // Zahlung läuft? (scheint String zu sein)
   field_7858: { id: number; value: string; color: string } | null // Zahlung läuft? (echtes Select-Feld)
-  field_7829: string // Ansprechpartner_Name
-  field_7830: string // Handynummer_Ansprechpartner
-  field_7831: string // Email_Ansprechpartner
+  field_7829: string // Ansprechpartner (Rolle: "Papa", "Mama", etc.)
+  field_7830: string // Name_Ansprechpartner ("Tobias", "Eddie", etc.)
+  field_7831: string // Handynummer_Ansprechpartner
+  field_7854: string // Email_Ansprechpartner
   field_7842: string // Startdatum_Unterrichtsvertrag
   field_7843: string // Vertragslink
   field_7844: string // Buch_2 (scheint korrekt)
@@ -120,8 +121,8 @@ export function convertToAppFormat(baserowStudent: Schüler): SchülerApp {
     zahlungStatus: baserowStudent.field_7858?.value || baserowStudent.field_7841 || 'unbekannt',
     startdatum: baserowStudent.field_7842 || '',
     ansprechpartner: baserowStudent.field_7829 || '',
-    handynummer: baserowStudent.field_7830 || '',
-    email: baserowStudent.field_7831 || '',
+    handynummer: baserowStudent.field_7831 || '', // field_7831 = Handynummer  
+    email: baserowStudent.field_7854 || '', // field_7854 = E-Mail-Adresse
     vertragslink: baserowStudent.field_7843 || '',
     buch2: baserowStudent.field_8173 || baserowStudent.field_7844 || '',
     seite2: baserowStudent.field_8174 || '', // field_7845 ist ein Select-Feld, nicht Seite_2
