@@ -223,9 +223,10 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Buch</label>
                 <BookDropdown 
-                  value={localValues.buch}
-                  onChange={(value) => updateLocalValue('buch', value)}
-                  placeholder="Buch auswählen..."
+                  currentBook={localValues.buch}
+                  onBookChange={(book) => updateLocalValue('buch', book)}
+                  isEditing={false}
+                  onToggleEdit={() => {}}
                 />
               </div>
               <div>
@@ -258,9 +259,10 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Buch 2</label>
                 <BookDropdown 
-                  value={localValues.buch2}
-                  onChange={(value) => updateLocalValue('buch2', value)}
-                  placeholder="Zweites Buch auswählen..."
+                  currentBook={localValues.buch2}
+                  onBookChange={(book) => updateLocalValue('buch2', book)}
+                  isEditing={false}
+                  onToggleEdit={() => {}}
                 />
               </div>
               <div>
