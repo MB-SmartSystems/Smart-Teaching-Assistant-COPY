@@ -254,16 +254,16 @@ export class OfflineStorageManager {
 
 // Baserow Field Mappings für Updates (Original Database 233)
 export const FIELD_MAPPINGS = {
-  buch: 'field_7835',              // Buch (Original)
+  buch: 'field_7835',              // Buch
   seite: 'field_7836',             // Seite (Nummer)
   übung: 'field_7837',             // Übung (Nummer)
-  buch2: 'field_7844',             // Buch 2 (Original)
-  seite2: 'field_7845',            // Seite 2 (Original)
-  übung2: 'field_7846',            // Übung 2 (Original)
-  aktuelleLieder: 'field_7838',    // Aktuelle Lieder (Original)
-  wichtigerFokus: 'field_7839',    // Technikübungen/Fokus (Original)
-  zahlungStatus: 'field_7841',     // Zahlung läuft? (Original)
-  hatSchlagzeug: 'field_7849'      // Hat Schlagzeug (Original)
+  buch2: 'field_8173',             // Buch 2 (CORRECTED)
+  seite2: 'field_8174',            // Seite 2 (CORRECTED)
+  übung2: 'field_8175',            // Übung 2 (CORRECTED)
+  aktuelleLieder: 'field_7838',    // Aktuelle Lieder
+  wichtigerFokus: 'field_7839',    // Technikübungen/Fokus
+  zahlungStatus: 'field_7858',     // Zahlung läuft? (CORRECTED - Select Field)
+  hatSchlagzeug: 'field_8370'      // Hat Schlagzeug (CORRECTED)
 } as const
 
 // Helper Hook für React Components

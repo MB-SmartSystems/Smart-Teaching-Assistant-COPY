@@ -68,65 +68,50 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
     setHasChanges(true)
   }
 
-  // Field-Name Mapping: App → Baserow
-  const fieldMapping: Record<string, string> = {
-    'buch': 'field_7835',
-    'seite': 'field_7836', 
-    'übung': 'field_7837',
-    'wichtigerFokus': 'field_7839',
-    'aktuelleLieder': 'field_7838',
-    'buch2': 'field_8173',
-    'seite2': 'field_8174', 
-    'übung2': 'field_8175'
-  }
-
-  // API Update mit korrekten Field-Namen
-  const updateFieldSafe = async (appFieldName: string, value: string) => {
-    const baserowFieldName = fieldMapping[appFieldName]
-    if (!baserowFieldName) {
-      throw new Error(`Unknown field: ${appFieldName}`)
-    }
-    return updateField(student.id, baserowFieldName, value, appFieldName as keyof SchülerApp)
-  }
-
   // Speichern aller Änderungen
   const handleSave = async () => {
     setIsSaving(true)
     try {
       const updates = []
       
-      // Vergleiche lokale Werte mit ursprünglichen Werten
+      // Vergleiche lokale Werte mit ursprünglichen Werten (3-Parameter API)
       if (localValues.buch !== student.buch) {
-        updates.push(updateFieldSafe('buch', localValues.buch))
+        updates.push(updateField(student.id, 'buch', localValues.buch))
       }
       if (localValues.seite !== student.seite) {
-        updates.push(updateFieldSafe('seite', localValues.seite))
+        updates.push(updateField(student.id, 'seite', localValues.seite))
       }
       if (localValues.übung !== student.übung) {
-        updates.push(updateFieldSafe('übung', localValues.übung))
+        updates.push(updateField(student.id, 'übung', localValues.übung))
       }
       if (localValues.buch2 !== student.buch2) {
-        updates.push(updateFieldSafe('buch2', localValues.buch2))
+        updates.push(updateField(student.id, 'buch2', localValues.buch2))
       }
       if (localValues.seite2 !== student.seite2) {
-        updates.push(updateFieldSafe('seite2', localValues.seite2))
+        updates.push(updateField(student.id, 'seite2', localValues.seite2))
       }
       if (localValues.übung2 !== student.übung2) {
-        updates.push(updateFieldSafe('übung2', localValues.übung2))
+        updates.push(updateField(student.id, 'übung2', localValues.übung2))
       }
       if (localValues.wichtigerFokus !== student.wichtigerFokus) {
-        updates.push(updateFieldSafe('wichtigerFokus', localValues.wichtigerFokus))
+        updates.push(updateField(student.id, 'wichtigerFokus', localValues.wichtigerFokus))
       }
       if (localValues.aktuelleLieder !== student.aktuelleLieder) {
-        updates.push(updateFieldSafe('aktuelleLieder', localValues.aktuelleLieder))
+        updates.push(updateField(student.id, 'aktuelleLieder', localValues.aktuelleLieder))
       }
 
-      // Select-Felder (brauchen Option-IDs)
+      // Select-Felder (mit Option-IDs über updateField)
       if (localValues.zahlungStatus !== student.zahlungStatus) {
-        await handleZahlungUpdate(localValues.zahlungStatus)
+        const optionId = ZAHLUNG_OPTIONS[localValues.zahlungStatus]
+        if (optionId) {
+          updates.push(updateField(student.id, 'zahlungStatus', optionId))
+        }
       }
       if (localValues.hatSchlagzeug !== student.hatSchlagzeug) {
-        await handleSchlagzeugUpdate(localValues.hatSchlagzeug)
+        const optionId = SCHLAGZEUG_OPTIONS[localValues.hatSchlagzeug]
+        if (optionId) {
+          updates.push(updateField(student.id, 'hatSchlagzeug', optionId))
+        }
       }
 
       // Alle Text-Field Updates parallel ausführen
@@ -167,35 +152,18 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
     'unbekannt': 3201,
   }
 
-  const handleZahlungUpdate = async (status: string) => {
-    const optionId = ZAHLUNG_OPTIONS[status]
-    if (!optionId) return
-    
-    try {
-      await updateField(student.id, 'field_7858', optionId, 'zahlungStatus')
-    } catch (error) {
-      console.error('Fehler beim Update des Zahlungsstatus:', error)
-      throw error
-    }
+  // Select-Field Option-IDs
+  const ZAHLUNG_OPTIONS: Record<string, number> = {
+    'ja': 3198,
+    'nein': 3199, 
+    'Paypal': 3200,
+    'unbekannt': 3201,
   }
 
-  // Schlagzeug-Status Update (Option-IDs müssen getestet werden)
   const SCHLAGZEUG_OPTIONS: Record<string, number> = {
     'Ja': 3572,
     'Nein': 3573,
     'Unbekannt': 3574,
-  }
-
-  const handleSchlagzeugUpdate = async (status: string) => {
-    const optionId = SCHLAGZEUG_OPTIONS[status]
-    if (!optionId) return
-    
-    try {
-      await updateField(student.id, 'field_8370', optionId, 'hatSchlagzeug')
-    } catch (error) {
-      console.error('Fehler beim Update des Schlagzeug-Status:', error)
-      throw error
-    }
   }
 
   // Attendance Handler
