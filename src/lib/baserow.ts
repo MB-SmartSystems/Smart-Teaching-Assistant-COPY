@@ -1,33 +1,33 @@
 // Baserow API Integration für Smart Teaching Assistant
 // Alle Calls laufen über Server-Side API Routes (/api/students)
 
-// Schüler-Datentyp basierend auf COPY-Baserow-Feldern (Tabelle 853)
+// Schüler-Datentyp basierend auf Original-Baserow-Feldern (Database 233, Tabelle 831)
 export interface Schüler {
   id: number
   order: string
-  field_8176: string // Vorname
-  field_8177: string // Nachname  
-  field_8178: string // Geburtsdatum
-  field_8269: string // Alter
-  field_8188: { id: number; value: string; color: string } | null // Unterrichtstag
-  field_8189: string // Unterrichtszeit
-  field_8190: string // Buch
-  field_8191: string // Seite
-  field_8192: string // Übung
-  field_8193: string // Aktuelle_Lieder
-  field_8194: string // Größter_Bedarf (→ Wichtiger Fokus)
-  field_8195: string // Monatlicher_Betrag
-  field_8200: { id: number; value: string; color: string } | null // Anfrage_Status
-  field_8211: { id: number; value: string; color: string } | null // Zahlung läuft?
-  field_8185: string // Ansprechpartner_Name
-  field_8186: string // Handynummer_Ansprechpartner
-  field_8187: string // Email_Ansprechpartner
-  field_8212: string // Startdatum_Unterrichtsvertrag
-  field_8207: string // Vertragslink
-  field_8218: string // Buch_2
-  field_8219: string // Seite_2
-  field_8220: string // Übung_2
-  field_8371: { id: number; value: string; color: string } | null // Hat Schlagzeug
+  field_7818: string // Vorname
+  field_7819: string // Nachname  
+  field_7820: string // Geburtsdatum
+  field_7821: string // Alter
+  field_7832: { id: number; value: string; color: string } | null // Unterrichtstag
+  field_7833: string // Unterrichtszeit
+  field_7835: string // Buch
+  field_7836: string // Seite
+  field_7837: string // Übung
+  field_7838: string // Aktuelle_Lieder
+  field_7839: string // Größter_Bedarf (→ Wichtiger Fokus)
+  field_7840: string // Monatlicher_Betrag
+  field_7826: { id: number; value: string; color: string } | null // Anfrage_Status
+  field_7841: string // Zahlung läuft?
+  field_7829: string // Ansprechpartner_Name
+  field_7830: string // Handynummer_Ansprechpartner
+  field_7831: string // Email_Ansprechpartner
+  field_7842: string // Startdatum_Unterrichtsvertrag
+  field_7843: string // Vertragslink
+  field_7844: string // Buch_2
+  field_7845: string // Seite_2
+  field_7846: string // Übung_2
+  field_7849: { id: number; value: string; color: string } | null // Hat Schlagzeug
 }
 
 // Vereinfachte Schüler-Struktur für die App
@@ -100,28 +100,28 @@ export class BaserowAPI {
 export function convertToAppFormat(baserowStudent: Schüler): SchülerApp {
   return {
     id: baserowStudent.id,
-    vorname: baserowStudent.field_8176 || '',
-    nachname: baserowStudent.field_8177 || '',
-    geburtsdatum: baserowStudent.field_8178 || '',
-    unterrichtstag: baserowStudent.field_8188?.value || '',
-    unterrichtszeit: baserowStudent.field_8189 || '',
-    buch: baserowStudent.field_8190 || '',
-    seite: baserowStudent.field_8191 || '',
-    übung: baserowStudent.field_8192 || '',
-    aktuelleLieder: baserowStudent.field_8193 || '',
-    wichtigerFokus: baserowStudent.field_8194 || '', // COPY: field_8194 → Wichtiger Fokus
-    monatlicherbetrag: baserowStudent.field_8195 || '',
-    anfrageStatus: baserowStudent.field_8200?.value || '',
-    zahlungStatus: baserowStudent.field_8211?.value || 'unbekannt',
-    startdatum: baserowStudent.field_8212 || '',
-    ansprechpartner: baserowStudent.field_8185 || '',
-    handynummer: baserowStudent.field_8186 || '',
-    email: baserowStudent.field_8187 || '',
-    vertragslink: baserowStudent.field_8207 || '',
-    buch2: baserowStudent.field_8218 || '',
-    seite2: baserowStudent.field_8219 || '',
-    übung2: baserowStudent.field_8220 || '',
-    hatSchlagzeug: baserowStudent.field_8371?.value || 'Unbekannt',
+    vorname: baserowStudent.field_7818 || '',
+    nachname: baserowStudent.field_7819 || '',
+    geburtsdatum: baserowStudent.field_7820 || '',
+    unterrichtstag: baserowStudent.field_7832?.value || '',
+    unterrichtszeit: baserowStudent.field_7833 || '',
+    buch: baserowStudent.field_7835 || '',
+    seite: baserowStudent.field_7836 || '',
+    übung: baserowStudent.field_7837 || '',
+    aktuelleLieder: baserowStudent.field_7838 || '',
+    wichtigerFokus: baserowStudent.field_7839 || '', // Original: field_7839 → Wichtiger Fokus
+    monatlicherbetrag: baserowStudent.field_7840 || '',
+    anfrageStatus: baserowStudent.field_7826?.value || '',
+    zahlungStatus: baserowStudent.field_7841 || 'unbekannt',
+    startdatum: baserowStudent.field_7842 || '',
+    ansprechpartner: baserowStudent.field_7829 || '',
+    handynummer: baserowStudent.field_7830 || '',
+    email: baserowStudent.field_7831 || '',
+    vertragslink: baserowStudent.field_7843 || '',
+    buch2: baserowStudent.field_7844 || '',
+    seite2: baserowStudent.field_7845 || '',
+    übung2: baserowStudent.field_7846 || '',
+    hatSchlagzeug: baserowStudent.field_7849?.value || 'Unbekannt',
   }
 }
 

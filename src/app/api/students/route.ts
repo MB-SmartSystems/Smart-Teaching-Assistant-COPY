@@ -47,16 +47,16 @@ export async function PATCH(request: NextRequest) {
     'Content-Type': 'application/json'
   }
 
-  // Allowed Baserow field names (COPY Database 238, Table 853)
+  // Allowed Baserow field names (Original Database 233, Table 831)
   const ALLOWED_FIELDS = new Set([
-    'field_8190', 'field_8191', 'field_8192',
-    'field_8193', 'field_8194', 'field_8211',
-    'field_8212', 'field_8218', 'field_8219', 'field_8220',
-    'field_8371', // Hat Schlagzeug
+    'field_7835', 'field_7836', 'field_7837',
+    'field_7838', 'field_7839', 'field_7841',
+    'field_7842', 'field_7844', 'field_7845', 'field_7846',
+    'field_7849', // Hat Schlagzeug
   ])
 
   // Fields that accept integer option IDs (single_select)
-  const SELECT_FIELDS = new Set(['field_8211', 'field_8371'])
+  const SELECT_FIELDS = new Set(['field_7841', 'field_7849'])
 
   try {
     const body = await request.json()
