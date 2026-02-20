@@ -74,7 +74,7 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
   const attendanceStats = getAttendanceStats(student.id, 30)
 
   // Update lokale Werte + Auto-Save
-  const updateLocalValue = async (field: string, value: string) => {
+  const updateLocalValue = async (field: keyof SchülerApp, value: string) => {
     setLocalValues(prev => ({ ...prev, [field]: value }))
     try {
       await updateField(student.id, field, value)
