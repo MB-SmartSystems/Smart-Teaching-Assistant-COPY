@@ -1,58 +1,59 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Manuel Büttner Branding - Gedämpftes dunkles Design wie Website-Screenshot */
+/* Design-System nach Manus Vorgabe */
 :root {
-  /* Primärfarben - Gedämpfte, professionelle Töne */
-  --primary: #4ade80;         /* Gedämpftes Grün (weniger grell) */
-  --primary-dark: #22c55e;    /* Etwas dunkleres Grün für Hover */
-  --primary-light: #86efac;   /* Helleres Grün für Highlights */
+  /* Primary Colors - Design-System */
+  --primary: #3b82f6;         /* Design-System Blau */
+  --primary-dark: #2563eb;    /* Dunkleres Blau für Hover */
+  --primary-light: #60a5fa;   /* Helleres Blau für Highlights */
   
   --secondary: #64748b;       /* Slate Grau */
   --secondary-light: #94a3b8; /* Helleres Grau für Text */
   --secondary-dark: #334155;  /* Dunkles Slate */
   
-  /* Akzentfarben - gedämpft */
-  --accent: #4ade80;          /* Gedämpfter grüner Akzent */
-  --accent-light: #354F52;    /* Manus gewählte Farbe für Karten */
-  --accent-dark: #16a34a;     /* Dunkles Grün */
+  /* Accent Colors */
+  --accent: #3b82f6;          /* Design-System Blau */
+  --accent-light: #1a1a1a;    /* Design-System Dunkelgrau für Cards */
+  --accent-dark: #2563eb;     /* Dunkles Blau */
   
-  /* Textfarben - optimiert für Lesbarkeit */
-  --text-primary: #f1f5f9;    /* Sehr helles Grau (nicht reines Weiß) */
-  --text-secondary: #cbd5e1;  /* Mittleres helles Grau */
-  --text-muted: #64748b;      /* Dunkleres Grau für besseren Kontrast */
-  --text-on-color: #ffffff;   /* Weißer Text auf farbigen Hintergründen */
-  --text-light-muted: #94a3b8; /* Helles gedämpftes Grau nur für dunkle Hintergründe */
+  /* Text Colors */
+  --text-primary: #ffffff;    /* Weißer Text */
+  --text-secondary: #e2e8f0;  /* Heller Grau Text */
+  --text-muted: #94a3b8;      /* Gedämpfter Text */
+  --text-on-color: #ffffff;   /* Text auf farbigen Backgrounds */
   
-  /* Dunkle Hintergründe - wie im Screenshot */
-  --bg-primary: #0f172a;      /* Sehr dunkles Blau-Grau (Haupthintergrund) */
-  --bg-secondary: #1e293b;    /* Dunkles Grau für Header - bleibt dunkelblau */
-  --bg-light: #020617;        /* Noch dunkler für maximalen Kontrast */
+  /* Background Colors - Design-System */
+  --bg-primary: #0a0a0a;      /* Design-System Schwarz */
+  --bg-secondary: #1a1a1a;    /* Design-System Dunkelgrau für Cards */
+  --bg-light: #262626;        /* Etwas helleres Grau */
   
-  /* Status-Farben - gedämpft und professionell */
-  --status-active: #4ade80;   /* Gedämpftes Grün für aktiv */
-  --status-active-bg: #354F52; /* Manus gewählte Farbe für Status-Hintergründe */
-  --status-success: #22c55e;  /* Grün für Erfolg */
-  --status-success-bg: #354F52; /* Manus gewählte Farbe für Status-Hintergründe */
+  /* Status Colors */
+  --status-active: #3b82f6;   /* Design-System Blau */
+  --status-active-bg: #1a1a1a; /* Card Background */
+  --status-success: #10b981;  /* Grün für Erfolg */
+  --status-success-bg: #1a1a1a; 
   --status-warning: #f59e0b;  /* Orange für Warnungen */
-  --status-warning-bg: #354F52; /* Manus gewählte Farbe für Status-Hintergründe */
-  --status-error: #ef4444;    /* Rot für Fehler/Nein */
-  --status-error-bg: #354F52; /* Manus gewählte Farbe für Status-Hintergründe */
-  --status-neutral: #64748b;  /* Slate Grau für neutral */
-  --status-neutral-bg: #354F52; /* Manus gewählte Farbe für Status-Hintergründe */
+  --status-warning-bg: #1a1a1a;
+  --status-error: #ef4444;    /* Rot für Fehler */
+  --status-error-bg: #1a1a1a;
+  --status-neutral: #64748b;  /* Grau für neutral */
+  --status-neutral-bg: #1a1a1a;
   
-  /* Schatten - für dunkles Theme */
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+  /* Shadows - Modern */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
   
-  /* Borders - für dunkles Theme mit besserer Sichtbarkeit */
-  --border-light: #334155;    /* Subtile aber sichtbare Borders */
-  --border-medium: #475569;   /* Mittlere Borders */
-  --border-dark: #64748b;     /* Deutliche Borders */
+  /* Borders */
+  --border-light: #404040;    /* Subtile Borders */
+  --border-medium: #525252;   /* Mittlere Borders */
+  --border-dark: #737373;     /* Deutliche Borders */
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
   background-color: var(--bg-primary);
@@ -60,65 +61,124 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Utility Classes für dunkles Design */
-.text-on-light { color: var(--text-primary); }
-.text-muted { color: var(--text-muted); }
-.bg-card { background-color: var(--bg-secondary); }
-.bg-card-light { background-color: var(--accent-light); }
-.border-card { border-color: var(--border-light); }
+/* Modern Design-System Components */
 
-/* Text-Kontrast Fixes */
-.text-contrast-fix {
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+/* Cards - Modern Design */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
 }
 
-/* Bessere Lesbarkeit für helle Texte auf dunklem Hintergrund */
-.text-readable-light {
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
-/* Bessere Lesbarkeit für dunkle Texte auf hellem Hintergrund */
-.text-readable-dark {
-  color: #1a1a1a;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+.card-compact {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
 }
 
-/* Button-Styles - Professionell mit optimaler Lesbarkeit */
+/* Buttons - Design System */
 .btn-primary {
   background-color: var(--primary);
-  color: var(--bg-primary);
+  color: white;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 600;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
-  box-shadow: var(--shadow-md);
   cursor: pointer;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-light);
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 500;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
   cursor: pointer;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-secondary:hover {
   background-color: var(--bg-light);
-  border-color: var(--border-dark);
+  border-color: var(--border-medium);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
 }
+
+/* Form Elements */
+input, select, textarea {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+}
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-success {
+  background-color: rgb(16 185 129 / 0.1);
+  color: #10b981;
+  border: 1px solid rgb(16 185 129 / 0.2);
+}
+
+.badge-warning {
+  background-color: rgb(245 158 11 / 0.1);
+  color: #f59e0b;
+  border: 1px solid rgb(245 158 11 / 0.2);
+}
+
+.badge-error {
+  background-color: rgb(239 68 68 / 0.1);
+  color: #ef4444;
+  border: 1px solid rgb(239 68 68 / 0.2);
+}
+
+/* Utility Classes */
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }

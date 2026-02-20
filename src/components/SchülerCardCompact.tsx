@@ -185,21 +185,27 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl border" style={{ backgroundColor: '#1a1a1a', borderColor: '#333' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}>
+      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-light)' }}>
         
-        {/* Header mit Save/Cancel */}
-        <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: '#333', backgroundColor: '#000' }}>
+        {/* Header - Modern Design */}
+        <div className="flex items-center justify-between p-6 border-b" style={{ 
+          borderColor: 'var(--border-light)', 
+          background: 'linear-gradient(135deg, var(--primary), var(--primary-dark))'
+        }}>
           <div>
-            <h2 className="text-2xl font-bold" style={{ color: '#ffffff' }}>
+            <h2 className="text-2xl font-bold text-white">
               {student.vorname} {student.nachname}
             </h2>
-            <p className="text-base font-semibold" style={{ color: '#ffffff' }}>
-              {student.unterrichtstag} {student.unterrichtszeit} • {student.anfrageStatus || 'Aktiv'}
-            </p>
+            <div className="flex items-center gap-4 mt-2 text-white/90">
+              <span>📅 {student.unterrichtstag} {student.unterrichtszeit}</span>
+              {student.anfrageStatus && (
+                <span className="badge badge-success">{student.anfrageStatus}</span>
+              )}
+            </div>
             {student.monatlicherbetrag && (
-              <p className="text-sm" style={{ color: '#cbd5e1' }}>
-                Monatsbeitrag: {student.monatlicherbetrag}€
+              <p className="text-white/80 text-sm mt-1">
+                💰 {student.monatlicherbetrag}€ / Monat
               </p>
             )}
           </div>
@@ -210,14 +216,14 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold disabled:opacity-50"
+                  className="btn-primary bg-green-600 hover:bg-green-700"
                 >
                   {isSaving ? '💾 Speichere...' : '💾 Speichern'}
                 </button>
                 <button
                   onClick={handleCancel}
                   disabled={isSaving}
-                  className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold disabled:opacity-50"
+                  className="btn-secondary"
                 >
                   ❌ Abbrechen
                 </button>
@@ -225,21 +231,23 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
             )}
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold"
+              className="btn-secondary bg-red-600/20 hover:bg-red-600/30 text-red-400 border-red-600/30"
             >
               ✕ Schließen
             </button>
           </div>
         </div>
 
-        <div className="p-6" style={{ backgroundColor: '#1a1a1a' }}>
+        <div className="p-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
           
-          {/* Buch 1 */}
-          <div className="mb-6">
-            <h3 className="font-semibold mb-3" style={{ color: '#ffffff' }}>📖 Buch</h3>
+          {/* Buch 1 - Modern Card */}
+          <div className="card-compact mb-6">
+            <h3 className="font-semibold mb-4 text-lg flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+              📖 Buch
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Buch</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Buch</label>
                 <BookDropdown 
                   currentBook={localValues.buch}
                   onBookChange={(book) => updateLocalValue('buch', book)}
@@ -248,34 +256,50 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Seite</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Seite</label>
                 <input
                   type="text"
                   value={localValues.seite}
                   onChange={(e) => updateLocalValue('seite', e.target.value)}
-                  className="w-full p-2 rounded border text-white bg-gray-800 border-gray-600 focus:border-blue-500"
+                  className="w-full"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    border: `1px solid var(--border-light)`,
+                    borderRadius: '0.5rem',
+                    padding: '0.75rem'
+                  }}
                   placeholder="z.B. 24"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Übung</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Übung</label>
                 <input
                   type="text"
                   value={localValues.übung}
                   onChange={(e) => updateLocalValue('übung', e.target.value)}
-                  className="w-full p-2 rounded border text-white bg-gray-800 border-gray-600 focus:border-blue-500"
+                  className="w-full"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    border: `1px solid var(--border-light)`,
+                    borderRadius: '0.5rem',
+                    padding: '0.75rem'
+                  }}
                   placeholder="z.B. 1-5"
                 />
               </div>
             </div>
           </div>
 
-          {/* Buch 2 */}
-          <div className="mb-6">
-            <h3 className="font-semibold mb-3" style={{ color: '#ffffff' }}>📚 Buch 2</h3>
+          {/* Buch 2 - Modern Card */}
+          <div className="card-compact mb-6">
+            <h3 className="font-semibold mb-4 text-lg flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+              📚 Buch 2
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Buch 2</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Buch 2</label>
                 <BookDropdown 
                   currentBook={localValues.buch2}
                   onBookChange={(book) => updateLocalValue('buch2', book)}
@@ -284,17 +308,24 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Seite 2</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Seite 2</label>
                 <input
                   type="text"
                   value={localValues.seite2}
                   onChange={(e) => updateLocalValue('seite2', e.target.value)}
-                  className="w-full p-2 rounded border text-white bg-gray-800 border-gray-600 focus:border-blue-500"
+                  className="w-full"
+                  style={{
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    border: `1px solid var(--border-light)`,
+                    borderRadius: '0.5rem',
+                    padding: '0.75rem'
+                  }}
                   placeholder="z.B. 12"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#ffffff' }}>Übung 2</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Übung 2</label>
                 <input
                   type="text"
                   value={localValues.übung2}

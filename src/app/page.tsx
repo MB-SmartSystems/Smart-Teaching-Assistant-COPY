@@ -262,56 +262,62 @@ export default function Home() {
 
       <main className="p-6 max-w-6xl mx-auto">
         
-        {/* Kompakte Auto-Switch Karte (Klickbar) */}
+        {/* Auto-Switch Status Card - Modern Design */}
         {isClient && autoSwitchStatus && (
           <div className="mb-6">
             {autoSwitchStatus.currentStudent ? (
               <div 
                 onClick={() => setSelectedStudent(autoSwitchStatus.currentStudent!.id)}
-                className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
-                style={{ backgroundColor: 'var(--status-active)', color: 'white', borderColor: 'var(--status-active)' }} 
+                className="card cursor-pointer group"
+                style={{ 
+                  background: 'linear-gradient(135deg, var(--primary), var(--primary-dark))',
+                  border: 'none'
+                }}
               >
-                <div className="p-4 rounded-lg shadow-md border-l-4">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="font-bold text-lg text-white">
-                        ▶️ Aktuell: {autoSwitchStatus.currentStudent.vorname} {autoSwitchStatus.currentStudent.nachname}
-                      </div>
-                      <div className="text-white text-sm font-medium mt-1">
-                        {autoSwitchStatus.currentStudent.unterrichtszeit} • {autoSwitchStatus.currentStudent.monatlicherbetrag ? `${autoSwitchStatus.currentStudent.monatlicherbetrag}€` : 'Kein Betrag'}
-                      </div>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="font-bold text-xl text-white flex items-center gap-2">
+                      ▶️ Aktuell: {autoSwitchStatus.currentStudent.vorname} {autoSwitchStatus.currentStudent.nachname}
                     </div>
-                    
-                    {autoSwitchStatus.nextStudent && autoSwitchStatus.minutesUntilNext > 0 && (
-                      <div className="text-right text-white text-sm">
-                        <div className="font-medium">Nächster:</div>
-                        <div>{autoSwitchStatus.nextStudent.vorname} {getCountdownText(autoSwitchStatus.minutesUntilNext)}</div>
-                      </div>
-                    )}
+                    <div className="text-white/90 text-sm font-medium mt-2 flex items-center gap-4">
+                      <span>⏰ {autoSwitchStatus.currentStudent.unterrichtszeit}</span>
+                      {autoSwitchStatus.currentStudent.monatlicherbetrag && (
+                        <span>💰 {autoSwitchStatus.currentStudent.monatlicherbetrag}€</span>
+                      )}
+                    </div>
                   </div>
+                  
+                  {autoSwitchStatus.nextStudent && autoSwitchStatus.minutesUntilNext > 0 && (
+                    <div className="text-right text-white text-sm bg-white/10 rounded-lg p-3">
+                      <div className="font-semibold mb-1">Nächster:</div>
+                      <div className="font-medium">{autoSwitchStatus.nextStudent.vorname}</div>
+                      <div className="text-xs opacity-90">{getCountdownText(autoSwitchStatus.minutesUntilNext)}</div>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : autoSwitchStatus.isWaitingTime && autoSwitchStatus.nextStudent ? (
               <div 
                 onClick={() => setSelectedStudent(autoSwitchStatus.nextStudent!.id)}
-                className="cursor-pointer hover:shadow-lg transition-all duration-200"
-                style={{ backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)', borderColor: 'var(--status-warning)' }} 
+                className="card cursor-pointer"
+                style={{ 
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  border: 'none'
+                }}
               >
-                <div className="p-4 rounded-lg shadow-md border-l-4">
-                  <div className="font-bold text-lg">
-                    ⏳ Nächster: {autoSwitchStatus.nextStudent.vorname} {autoSwitchStatus.nextStudent.nachname}
-                  </div>
-                  <div className="text-sm font-medium mt-1">
-                    {getCountdownText(autoSwitchStatus.minutesUntilNext)} • {autoSwitchStatus.nextStudent.unterrichtszeit}
-                  </div>
+                <div className="font-bold text-xl text-white flex items-center gap-2">
+                  ⏳ Nächster: {autoSwitchStatus.nextStudent.vorname} {autoSwitchStatus.nextStudent.nachname}
+                </div>
+                <div className="text-white/90 text-sm font-medium mt-2">
+                  {getCountdownText(autoSwitchStatus.minutesUntilNext)} • {autoSwitchStatus.nextStudent.unterrichtszeit}
                 </div>
               </div>
             ) : (
-              <div style={{ backgroundColor: 'var(--status-neutral-bg)', color: 'var(--status-neutral)', borderColor: 'var(--status-neutral)' }} className="p-4 rounded-lg shadow-md border-l-4">
-                <div className="font-bold text-lg">
+              <div className="card" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                <div className="font-bold text-xl flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                   😴 Kein Unterricht zur aktuellen Zeit
                 </div>
-                <div className="text-sm font-medium mt-1">
+                <div className="text-sm font-medium mt-2" style={{ color: 'var(--text-muted)' }}>
                   {todaysStudents.length > 0 
                     ? `${todaysStudents.length} Schüler heute geplant`
                     : `Keine Schüler für ${getCurrentDay()} eingetragen`
