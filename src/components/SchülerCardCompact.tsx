@@ -56,13 +56,13 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
     buch: student.buch,
     seite: student.seite,
     übung: student.übung,
-    übungVon: initialUebungen.von,
-    übungBis: initialUebungen.bis,
+    übungVon: initialUebungen.von as number | string,
+    übungBis: initialUebungen.bis as number | string,
     buch2: student.buch2,
     seite2: student.seite2,
     übung2: student.übung2,
-    übung2Von: initialUebungen2.von,
-    übung2Bis: initialUebungen2.bis,
+    übung2Von: initialUebungen2.von as number | string,
+    übung2Bis: initialUebungen2.bis as number | string,
     wichtigerFokus: student.wichtigerFokus,
     aktuelleLieder: student.aktuelleLieder,
     zahlungStatus: student.zahlungStatus,
@@ -95,8 +95,8 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
 
   // Übungen +/- Handler mit Smart Logic
   const handleUebungUpdate = (field: 'übungVon' | 'übungBis', change: number) => {
-    const currentVon = localValues.übungVon
-    const currentBis = localValues.übungBis
+    const currentVon = typeof localValues.übungVon === 'string' ? parseInt(localValues.übungVon) || 1 : localValues.übungVon
+    const currentBis = typeof localValues.übungBis === 'string' ? parseInt(localValues.übungBis) || 1 : localValues.übungBis
     
     let newVon = currentVon
     let newBis = currentBis
@@ -128,8 +128,8 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
 
   // Übungen 2 Handler 
   const handleUebung2Update = (field: 'übung2Von' | 'übung2Bis', change: number) => {
-    const currentVon = localValues.übung2Von
-    const currentBis = localValues.übung2Bis
+    const currentVon = typeof localValues.übung2Von === 'string' ? parseInt(localValues.übung2Von) || 1 : localValues.übung2Von
+    const currentBis = typeof localValues.übung2Bis === 'string' ? parseInt(localValues.übung2Bis) || 1 : localValues.übung2Bis
     
     let newVon = currentVon
     let newBis = currentBis
@@ -238,13 +238,13 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
       buch: student.buch,
       seite: student.seite,
       übung: student.übung,
-      übungVon: resetUebungen.von,
-      übungBis: resetUebungen.bis,
+      übungVon: resetUebungen.von as number | string,
+      übungBis: resetUebungen.bis as number | string,
       buch2: student.buch2,
       seite2: student.seite2,
       übung2: student.übung2,
-      übung2Von: resetUebungen2.von,
-      übung2Bis: resetUebungen2.bis,
+      übung2Von: resetUebungen2.von as number | string,
+      übung2Bis: resetUebungen2.bis as number | string,
       wichtigerFokus: student.wichtigerFokus,
       aktuelleLieder: student.aktuelleLieder,
       zahlungStatus: student.zahlungStatus,
@@ -257,8 +257,8 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
   const ZAHLUNG_OPTIONS: Record<string, number> = {
     'ja': 3198,
     'nein': 3199, 
-    'Paypal': 3200,
-    'unbekannt': 3201,
+    'unbekannt': 3200,
+    'Paypal': 3241,
   }
 
   const SCHLAGZEUG_OPTIONS: Record<string, number> = {
@@ -356,10 +356,12 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                     −
                   </button>
                   <input
-                    type="number"
-                    min="1"
+                    type="text"
                     value={localValues.seite}
                     onChange={(e) => {
+                      updateLocalValue('seite', e.target.value)
+                    }}
+                    onBlur={(e) => {
                       const value = Math.max(1, parseInt(e.target.value) || 1)
                       updateLocalValue('seite', value.toString())
                     }}
@@ -393,12 +395,19 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                           −
                         </button>
                         <input
-                          type="number"
-                          min="1"
+                          type="text"
                           value={localValues.übungVon}
                           onChange={(e) => {
+                            setLocalValues(prev => ({ 
+                              ...prev, 
+                              übungVon: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übungVon)
+                            }))
+                            setHasChanges(true)
+                          }}
+                          onBlur={(e) => {
                             const newVon = Math.max(1, parseInt(e.target.value) || 1)
-                            const newBis = Math.max(newVon, localValues.übungBis) // Smart Logic: bis nie unter von
+                            const currentBis = typeof localValues.übungBis === 'string' ? parseInt(localValues.übungBis) || 1 : localValues.übungBis
+                            const newBis = Math.max(newVon, currentBis)
                             const ubungString = newVon === newBis ? newVon.toString() : `${newVon}-${newBis}`
                             
                             setLocalValues(prev => ({ 
@@ -436,12 +445,19 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                           −
                         </button>
                         <input
-                          type="number"
-                          min={localValues.übungVon}
+                          type="text"
                           value={localValues.übungBis}
                           onChange={(e) => {
-                            const newBis = Math.max(localValues.übungVon, parseInt(e.target.value) || localValues.übungVon)
-                            const ubungString = localValues.übungVon === newBis ? localValues.übungVon.toString() : `${localValues.übungVon}-${newBis}`
+                            setLocalValues(prev => ({ 
+                              ...prev, 
+                              übungBis: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übungBis)
+                            }))
+                            setHasChanges(true)
+                          }}
+                          onBlur={(e) => {
+                            const currentVon = typeof localValues.übungVon === 'string' ? parseInt(localValues.übungVon) || 1 : localValues.übungVon
+                            const newBis = Math.max(currentVon, parseInt(e.target.value) || currentVon)
+                            const ubungString = currentVon === newBis ? currentVon.toString() : `${currentVon}-${newBis}`
                             
                             setLocalValues(prev => ({ 
                               ...prev, 
@@ -500,10 +516,12 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                     −
                   </button>
                   <input
-                    type="number"
-                    min="1"
+                    type="text"
                     value={localValues.seite2}
                     onChange={(e) => {
+                      updateLocalValue('seite2', e.target.value)
+                    }}
+                    onBlur={(e) => {
                       const value = Math.max(1, parseInt(e.target.value) || 1)
                       updateLocalValue('seite2', value.toString())
                     }}
@@ -537,12 +555,19 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                           −
                         </button>
                         <input
-                          type="number"
-                          min="1"
+                          type="text"
                           value={localValues.übung2Von}
                           onChange={(e) => {
+                            setLocalValues(prev => ({ 
+                              ...prev, 
+                              übung2Von: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übung2Von)
+                            }))
+                            setHasChanges(true)
+                          }}
+                          onBlur={(e) => {
                             const newVon = Math.max(1, parseInt(e.target.value) || 1)
-                            const newBis = Math.max(newVon, localValues.übung2Bis)
+                            const currentBis = typeof localValues.übung2Bis === 'string' ? parseInt(localValues.übung2Bis) || 1 : localValues.übung2Bis
+                            const newBis = Math.max(newVon, currentBis)
                             const ubungString = newVon === newBis ? newVon.toString() : `${newVon}-${newBis}`
                             
                             setLocalValues(prev => ({ 
@@ -580,12 +605,19 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                           −
                         </button>
                         <input
-                          type="number"
-                          min={localValues.übung2Von}
+                          type="text"
                           value={localValues.übung2Bis}
                           onChange={(e) => {
-                            const newBis = Math.max(localValues.übung2Von, parseInt(e.target.value) || localValues.übung2Von)
-                            const ubungString = localValues.übung2Von === newBis ? localValues.übung2Von.toString() : `${localValues.übung2Von}-${newBis}`
+                            setLocalValues(prev => ({ 
+                              ...prev, 
+                              übung2Bis: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übung2Bis)
+                            }))
+                            setHasChanges(true)
+                          }}
+                          onBlur={(e) => {
+                            const currentVon = typeof localValues.übung2Von === 'string' ? parseInt(localValues.übung2Von) || 1 : localValues.übung2Von
+                            const newBis = Math.max(currentVon, parseInt(e.target.value) || currentVon)
+                            const ubungString = currentVon === newBis ? currentVon.toString() : `${currentVon}-${newBis}`
                             
                             setLocalValues(prev => ({ 
                               ...prev, 
