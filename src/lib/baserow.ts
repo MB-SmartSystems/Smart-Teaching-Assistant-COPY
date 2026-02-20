@@ -42,18 +42,18 @@ export interface SchülerApp {
   seite: string
   übung: string
   aktuelleLieder: string
-  wichtigerFokus: string // field_8194 (COPY)
+  wichtigerFokus: string // field_7839 (Original)
   monatlicherbetrag: string
   anfrageStatus: string
   zahlungStatus: string
-  startdatum: string // field_8212 (COPY)
+  startdatum: string // field_7842 (Original)
   ansprechpartner: string
   handynummer: string
   email: string
   vertragslink: string
-  buch2: string // field_8173
-  seite2: string // field_8174
-  übung2: string // field_8175
+  buch2: string // field_7844
+  seite2: string // field_7845
+  übung2: string // field_7846
   hatSchlagzeug: string // 'Ja' | 'Nein' | 'Unbekannt'
 }
 

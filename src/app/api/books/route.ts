@@ -28,7 +28,7 @@ export async function GET() {
     
     // Alle verwendeten Bücher extrahieren
     const books = data.results
-      .map((student: any) => student.field_8190) // Buch-Feld (COPY DB 238)
+      .map((student: any) => student.field_7835) // Buch-Feld (Original DB 233)
       .filter((book: string) => book && book.trim()) // Nur gefüllte Bücher
       .filter((book: string, index: number, array: string[]) => 
         array.indexOf(book) === index // Duplikate entfernen

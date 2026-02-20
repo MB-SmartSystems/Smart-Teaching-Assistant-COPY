@@ -241,7 +241,7 @@ export default function SchülerCard({ student, isActive = false }: SchülerCard
     }
   }
 
-  // Baserow Option-IDs für field_8211 (Zahlung läuft? - COPY DB)
+  // Baserow Option-IDs für field_7841 (Zahlung läuft? - Original DB)
   const ZAHLUNG_OPTIONS: Record<string, number> = {
     'ja': 3198,
     'nein': 3199,
@@ -254,7 +254,7 @@ export default function SchülerCard({ student, isActive = false }: SchülerCard
     if (!optionId) return
     try {
       // Send integer option ID directly to Baserow API
-      await BaserowAPI.updateStudentField(student.id, 'field_8211', optionId)
+      await BaserowAPI.updateStudentField(student.id, 'field_7841', optionId)
       // Reload to show updated status
       window.location.reload()
     } catch (error) {
@@ -262,7 +262,7 @@ export default function SchülerCard({ student, isActive = false }: SchülerCard
     }
   }
 
-  // Baserow Option-IDs für field_8371 (Hat Schlagzeug - COPY DB)
+  // Baserow Option-IDs für field_7849 (Hat Schlagzeug - Original DB)
   const SCHLAGZEUG_OPTIONS: Record<string, number> = {
     'Ja': 3572,
     'Nein': 3573,
@@ -274,7 +274,7 @@ export default function SchülerCard({ student, isActive = false }: SchülerCard
     if (!optionId) return
     try {
       // Send integer option ID directly to Baserow API
-      await BaserowAPI.updateStudentField(student.id, 'field_8371', optionId)
+      await BaserowAPI.updateStudentField(student.id, 'field_7849', optionId)
       // Reload to show updated status
       window.location.reload()
     } catch (error) {

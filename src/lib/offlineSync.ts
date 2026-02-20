@@ -252,18 +252,18 @@ export class OfflineStorageManager {
   }
 }
 
-// Baserow Field Mappings für Updates (COPY Database 238)
+// Baserow Field Mappings für Updates (Original Database 233)
 export const FIELD_MAPPINGS = {
-  buch: 'field_8190',              // Buch (COPY)
-  seite: 'field_8191',             // Seite (Nummer)
-  übung: 'field_8192',             // Übung (Nummer)
-  buch2: 'field_8218',             // Buch 2 (COPY)
-  seite2: 'field_8219',            // Seite 2 (COPY)
-  übung2: 'field_8220',            // Übung 2 (COPY)
-  aktuelleLieder: 'field_8193',    // Aktuelle Lieder (COPY)
-  wichtigerFokus: 'field_8194',    // Technikübungen/Fokus (COPY)
-  zahlungStatus: 'field_8211',     // Zahlung läuft? (COPY)
-  hatSchlagzeug: 'field_8371'      // Hat Schlagzeug (COPY)
+  buch: 'field_7835',              // Buch (Original)
+  seite: 'field_7836',             // Seite (Nummer)
+  übung: 'field_7837',             // Übung (Nummer)
+  buch2: 'field_7844',             // Buch 2 (Original)
+  seite2: 'field_7845',            // Seite 2 (Original)
+  übung2: 'field_7846',            // Übung 2 (Original)
+  aktuelleLieder: 'field_7838',    // Aktuelle Lieder (Original)
+  wichtigerFokus: 'field_7839',    // Technikübungen/Fokus (Original)
+  zahlungStatus: 'field_7841',     // Zahlung läuft? (Original)
+  hatSchlagzeug: 'field_7849'      // Hat Schlagzeug (Original)
 } as const
 
 // Helper Hook für React Components
