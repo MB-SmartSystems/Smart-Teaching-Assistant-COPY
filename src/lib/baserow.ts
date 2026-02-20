@@ -25,9 +25,12 @@ export interface Schüler {
   field_7831: string // Email_Ansprechpartner
   field_7842: string // Startdatum_Unterrichtsvertrag
   field_7843: string // Vertragslink
-  field_7844: string // Buch_2
-  field_7845: string // Seite_2
-  field_7846: string // Übung_2
+  field_7844: string // Buch_2 (scheint korrekt)
+  field_7845: { id: number; value: string; color: string } | null // Anderes Select-Feld (nicht Seite_2!)
+  field_7846: string // Übung_2 (scheint korrekt)
+  field_8173: string // Buch_2 (echtes Feld?)
+  field_8174: string // Seite_2 (echtes Feld?) 
+  field_8175: string // Übung_2 (echtes Feld?)
   field_7849: { id: number; value: string; color: string } | null // Empfehlung/Quelle
   field_8370: { id: number; value: string; color: string } | null // Hat Schlagzeug
 }
@@ -120,9 +123,9 @@ export function convertToAppFormat(baserowStudent: Schüler): SchülerApp {
     handynummer: baserowStudent.field_7830 || '',
     email: baserowStudent.field_7831 || '',
     vertragslink: baserowStudent.field_7843 || '',
-    buch2: baserowStudent.field_7844 || '',
-    seite2: baserowStudent.field_7845 || '',
-    übung2: baserowStudent.field_7846 || '',
+    buch2: baserowStudent.field_8173 || baserowStudent.field_7844 || '',
+    seite2: baserowStudent.field_8174 || '', // field_7845 ist ein Select-Feld, nicht Seite_2
+    übung2: baserowStudent.field_8175 || '', // field_7846 ist ein Select-Feld, nicht Übung_2
     hatSchlagzeug: baserowStudent.field_8370?.value || 'Unbekannt',
   }
 }

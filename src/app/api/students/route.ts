@@ -56,8 +56,9 @@ export async function PATCH(request: NextRequest) {
   const ALLOWED_FIELDS = new Set([
     'field_7835', 'field_7836', 'field_7837',
     'field_7838', 'field_7839', 'field_7841',
-    'field_7842', 'field_7844', 'field_7845', 'field_7846',
+    'field_7842', 'field_7844', 'field_7846',
     'field_7858', // Zahlung läuft (Select-Feld)
+    'field_8173', 'field_8174', 'field_8175', // Buch2/Seite2/Übung2
     'field_8370', // Hat Schlagzeug (Select-Feld)
   ])
 
