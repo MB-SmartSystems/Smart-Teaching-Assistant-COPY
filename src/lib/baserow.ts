@@ -64,8 +64,8 @@ export interface SchülerApp {
 
 // API Helper Funktionen - alle über Server-Side API Routes
 export class BaserowAPI {
-  // Alle Schüler laden (über /api/students)
-  static async getAllStudents(): Promise<Schüler[]> {
+  // Alle Schüler laden (über /api/students) - gibt bereits konvertierte SchülerApp[] zurück
+  static async getAllStudents(): Promise<SchülerApp[]> {
     try {
       const response = await fetch('/api/students')
 
