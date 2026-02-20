@@ -176,7 +176,7 @@ export function getStatusColor(status: AttendanceStatus): string {
     'vom_schueler_abgesagt': 'var(--status-error)',
     'vom_lehrer_abgesagt': 'var(--status-warning)',
     'schulfrei': 'var(--status-success)',
-    'nicht_erschienen': 'var(--text-primary)',
+    'nicht_erschienen': 'var(--status-error)', // Rot statt weiß für bessere Sichtbarkeit
     // Backward compat
     'krank': 'var(--status-warning)',
     'abgesagt': 'var(--status-neutral)',

@@ -25,8 +25,7 @@ interface SchülerCardCompactProps {
 export default function SchülerCardCompact({ student, isOpen, onClose }: SchülerCardCompactProps) {
   const { updateField } = useOfflineSync()
 
-  // Local State für alle Änderungen (Manual Save)
-  const [hasChanges, setHasChanges] = useState(false)
+  // Local State für Auto-Save
   const [isSaving, setIsSaving] = useState(false)
   const [editingField, setEditingField] = useState<string | null>(null)
   
@@ -74,27 +73,31 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
   const todayAttendance = getTodayAttendance(student.id)
   const attendanceStats = getAttendanceStats(student.id, 30)
 
-  // Update lokale Werte (nicht sofort speichern)
-  const updateLocalValue = (field: string, value: string) => {
+  // Update lokale Werte + Auto-Save
+  const updateLocalValue = async (field: string, value: string) => {
     setLocalValues(prev => ({ ...prev, [field]: value }))
-    setHasChanges(true)
+    try {
+      await updateField(student.id, field, value)
+    } catch (error) {
+      console.error(`Fehler beim Auto-Save ${field}:`, error)
+    }
   }
 
   // Seiten +/- Handler 
-  const handleSeiteUpdate = (change: number) => {
+  const handleSeiteUpdate = async (change: number) => {
     const currentValue = parseInt(localValues.seite || '1')
     const newValue = Math.max(1, currentValue + change)
-    updateLocalValue('seite', newValue.toString())
+    await updateLocalValue('seite', newValue.toString())
   }
 
-  const handleSeite2Update = (change: number) => {
+  const handleSeite2Update = async (change: number) => {
     const currentValue = parseInt(localValues.seite2 || '1')
     const newValue = Math.max(1, currentValue + change)
-    updateLocalValue('seite2', newValue.toString())
+    await updateLocalValue('seite2', newValue.toString())
   }
 
   // Übungen +/- Handler mit Smart Logic
-  const handleUebungUpdate = (field: 'übungVon' | 'übungBis', change: number) => {
+  const handleUebungUpdate = async (field: 'übungVon' | 'übungBis', change: number) => {
     const currentVon = typeof localValues.übungVon === 'string' ? parseInt(localValues.übungVon) || 1 : localValues.übungVon
     const currentBis = typeof localValues.übungBis === 'string' ? parseInt(localValues.übungBis) || 1 : localValues.übungBis
     
@@ -123,11 +126,17 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
       übungBis: newBis,
       übung: ubungString
     }))
-    setHasChanges(true)
+    
+    // Auto-Save
+    try {
+      await updateField(student.id, 'übung', ubungString)
+    } catch (error) {
+      console.error('Fehler beim Auto-Save Übung:', error)
+    }
   }
 
   // Übungen 2 Handler 
-  const handleUebung2Update = (field: 'übung2Von' | 'übung2Bis', change: number) => {
+  const handleUebung2Update = async (field: 'übung2Von' | 'übung2Bis', change: number) => {
     const currentVon = typeof localValues.übung2Von === 'string' ? parseInt(localValues.übung2Von) || 1 : localValues.übung2Von
     const currentBis = typeof localValues.übung2Bis === 'string' ? parseInt(localValues.übung2Bis) || 1 : localValues.übung2Bis
     
@@ -149,108 +158,34 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
       übung2Bis: newBis,
       übung2: ubungString
     }))
-    setHasChanges(true)
-  }
-
-  // Speichern aller Änderungen
-  const handleSave = async () => {
-    setIsSaving(true)
-    console.log('🔄 Save gestartet für Schüler:', student.id)
-    console.log('🔄 Lokale Werte:', localValues)
-    console.log('🔄 Original Werte:', { 
-      zahlungStatus: student.zahlungStatus, 
-      hatSchlagzeug: student.hatSchlagzeug,
-      buch2: student.buch2,
-      seite2: student.seite2,
-      übung2: student.übung2
-    })
     
+    // Auto-Save
     try {
-      const updates = []
-      
-      // Vergleiche lokale Werte mit ursprünglichen Werten (3-Parameter API)
-      if (localValues.buch !== student.buch) {
-        updates.push(updateField(student.id, 'buch', localValues.buch))
-      }
-      if (localValues.seite !== student.seite) {
-        updates.push(updateField(student.id, 'seite', localValues.seite))
-      }
-      if (localValues.übung !== student.übung) {
-        updates.push(updateField(student.id, 'übung', localValues.übung))
-      }
-      if (localValues.buch2 !== student.buch2) {
-        updates.push(updateField(student.id, 'buch2', localValues.buch2))
-      }
-      if (localValues.seite2 !== student.seite2) {
-        updates.push(updateField(student.id, 'seite2', localValues.seite2))
-      }
-      if (localValues.übung2 !== student.übung2) {
-        updates.push(updateField(student.id, 'übung2', localValues.übung2))
-      }
-      if (localValues.wichtigerFokus !== student.wichtigerFokus) {
-        updates.push(updateField(student.id, 'wichtigerFokus', localValues.wichtigerFokus))
-      }
-      if (localValues.aktuelleLieder !== student.aktuelleLieder) {
-        updates.push(updateField(student.id, 'aktuelleLieder', localValues.aktuelleLieder))
-      }
-
-      // Select-Felder (mit Option-IDs über updateField)
-      if (localValues.zahlungStatus !== student.zahlungStatus) {
-        const optionId = ZAHLUNG_OPTIONS[localValues.zahlungStatus]
-        console.log('💳 Zahlung Update:', localValues.zahlungStatus, '→ Option-ID:', optionId)
-        if (optionId) {
-          updates.push(updateField(student.id, 'zahlungStatus', optionId))
-        } else {
-          console.error('❌ Keine Option-ID für Zahlung-Status:', localValues.zahlungStatus)
-        }
-      }
-      if (localValues.hatSchlagzeug !== student.hatSchlagzeug) {
-        const optionId = SCHLAGZEUG_OPTIONS[localValues.hatSchlagzeug]
-        console.log('🥁 Schlagzeug Update:', localValues.hatSchlagzeug, '→ Option-ID:', optionId)
-        if (optionId) {
-          updates.push(updateField(student.id, 'hatSchlagzeug', optionId))
-        } else {
-          console.error('❌ Keine Option-ID für Schlagzeug-Status:', localValues.hatSchlagzeug)
-        }
-      }
-
-      // Alle Text-Field Updates parallel ausführen
-      console.log('🔄 Führe', updates.length, 'Updates aus...')
-      await Promise.all(updates)
-      
-      console.log('✅ Save erfolgreich!')
-      setHasChanges(false)
-      // Erfolgs-Toast hier
+      await updateField(student.id, 'übung2', ubungString)
     } catch (error) {
-      console.error('Fehler beim Speichern:', error)
-      // Error-Toast hier
-    } finally {
-      setIsSaving(false)
+      console.error('Fehler beim Auto-Save Übung2:', error)
     }
   }
 
-  // Änderungen verwerfen
-  const handleCancel = () => {
-    const resetUebungen = parseUebungen(student.übung || '')
-    const resetUebungen2 = parseUebungen(student.übung2 || '')
+  // Auto-Save für Select-Felder
+  const handleSelectUpdate = async (field: string, value: string) => {
+    setLocalValues(prev => ({ ...prev, [field]: value }))
     
-    setLocalValues({
-      buch: student.buch,
-      seite: student.seite,
-      übung: student.übung,
-      übungVon: resetUebungen.von as number | string,
-      übungBis: resetUebungen.bis as number | string,
-      buch2: student.buch2,
-      seite2: student.seite2,
-      übung2: student.übung2,
-      übung2Von: resetUebungen2.von as number | string,
-      übung2Bis: resetUebungen2.bis as number | string,
-      wichtigerFokus: student.wichtigerFokus,
-      aktuelleLieder: student.aktuelleLieder,
-      zahlungStatus: student.zahlungStatus,
-      hatSchlagzeug: student.hatSchlagzeug
-    })
-    setHasChanges(false)
+    try {
+      if (field === 'zahlungStatus') {
+        const optionId = ZAHLUNG_OPTIONS[value]
+        if (optionId) {
+          await updateField(student.id, field, optionId)
+        }
+      } else if (field === 'hatSchlagzeug') {
+        const optionId = SCHLAGZEUG_OPTIONS[value]
+        if (optionId) {
+          await updateField(student.id, field, optionId)
+        }
+      }
+    } catch (error) {
+      console.error(`Fehler beim Auto-Save ${field}:`, error)
+    }
   }
 
   // Zahlung-Status Update (mit korrekten Option-IDs)
@@ -302,24 +237,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
           </div>
           
           <div className="flex gap-3">
-            {hasChanges && (
-              <>
-                <button
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="btn-primary bg-green-600 hover:bg-green-700"
-                >
-                  {isSaving ? '💾 Speichere...' : '💾 Speichern'}
-                </button>
-                <button
-                  onClick={handleCancel}
-                  disabled={isSaving}
-                  className="btn-secondary"
-                >
-                  ❌ Abbrechen
-                </button>
-              </>
-            )}
             <button
               onClick={onClose}
               className="btn-secondary bg-red-600/20 hover:bg-red-600/30 text-red-400 border-red-600/30"
@@ -402,9 +319,8 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               ...prev, 
                               übungVon: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übungVon)
                             }))
-                            setHasChanges(true)
                           }}
-                          onBlur={(e) => {
+                          onBlur={async (e) => {
                             const newVon = Math.max(1, parseInt(e.target.value) || 1)
                             const currentBis = typeof localValues.übungBis === 'string' ? parseInt(localValues.übungBis) || 1 : localValues.übungBis
                             const newBis = Math.max(newVon, currentBis)
@@ -416,7 +332,13 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               übungBis: newBis,
                               übung: ubungString
                             }))
-                            setHasChanges(true)
+                            
+                            // Auto-Save
+                            try {
+                              await updateField(student.id, 'übung', ubungString)
+                            } catch (error) {
+                              console.error('Fehler beim Auto-Save Übung:', error)
+                            }
                           }}
                           className="flex-1 text-center font-semibold py-1 rounded border-none outline-none"
                           style={{ 
@@ -452,7 +374,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               ...prev, 
                               übungBis: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übungBis)
                             }))
-                            setHasChanges(true)
                           }}
                           onBlur={(e) => {
                             const currentVon = typeof localValues.übungVon === 'string' ? parseInt(localValues.übungVon) || 1 : localValues.übungVon
@@ -464,7 +385,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               übungBis: newBis,
                               übung: ubungString
                             }))
-                            setHasChanges(true)
                           }}
                           className="flex-1 text-center font-semibold py-1 rounded border-none outline-none"
                           style={{ 
@@ -562,7 +482,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               ...prev, 
                               übung2Von: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übung2Von)
                             }))
-                            setHasChanges(true)
                           }}
                           onBlur={(e) => {
                             const newVon = Math.max(1, parseInt(e.target.value) || 1)
@@ -576,7 +495,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               übung2Bis: newBis,
                               übung2: ubungString
                             }))
-                            setHasChanges(true)
                           }}
                           className="flex-1 text-center font-semibold py-1 rounded border-none outline-none"
                           style={{ 
@@ -612,7 +530,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               ...prev, 
                               übung2Bis: e.target.value === '' ? '' : (parseInt(e.target.value) || prev.übung2Bis)
                             }))
-                            setHasChanges(true)
                           }}
                           onBlur={(e) => {
                             const currentVon = typeof localValues.übung2Von === 'string' ? parseInt(localValues.übung2Von) || 1 : localValues.übung2Von
@@ -624,7 +541,6 @@ export default function SchülerCardCompact({ student, isOpen, onClose }: Schül
                               übung2Bis: newBis,
                               übung2: ubungString
                             }))
-                            setHasChanges(true)
                           }}
                           className="flex-1 text-center font-semibold py-1 rounded border-none outline-none"
                           style={{ 
